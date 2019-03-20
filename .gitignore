@@ -1,0 +1,4 @@
+**.o
+.vscode
+.tarantool
+**node_modules

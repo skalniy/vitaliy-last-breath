@@ -1,0 +1,16 @@
+{
+  "name": "node-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/client.js",
+  "scripts": {
+    "client": "node src/client.js"
+  },
+  "author": "Vitalik",
+  "license": "ISC",
+  "dependencies": {
+    "@serialport/parser-readline": "^2.0.2",
+    "request": "^2.88.0",
+    "serialport": "^7.1.4"
+  }
+}
