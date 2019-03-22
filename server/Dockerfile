@@ -57,9 +57,11 @@ EXPOSE 5000
 ENV GO_DEEP "psql -U docker -h 127.0.0.1 -d forum_tp"
 
 WORKDIR $GOPATH/src/items-server/
+RUN go get github.com/gorilla/mux
+RUN go get github.com/jackc/pgx
+
 ADD ./src $GOPATH/src/items-server/src
 
-RUN go get github.com/gorilla/mux
 RUN go build -o server.app src/main.go 
 RUN tree -L 4 ./
 

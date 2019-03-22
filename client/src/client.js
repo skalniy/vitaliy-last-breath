@@ -22,10 +22,10 @@ function handler(data) {
     console.log("=======================================================");
     try {
         const params = data.slice(1, -2).split('/');
-        console.log(params[1], params[2]);
+        // console.log(params[1], params[2]);
         const [ day, month, year] = params[1].split('.');
         const [ hours, minutes, seconds ] = params[2].split(':');
-        console.log(day, month, year, hours, minutes, seconds);
+        // console.log(day, month, year, hours, minutes, seconds);
 
         const datetime = new Date(year, month - 1, day, hours, minutes, seconds);
         

@@ -12,13 +12,13 @@ type ItemsBundle struct {
 }
 
 // NewItemsBundle instance
-func NewItemsBundle() core.Bundle {
+func NewItemsBundle(itemsMap map[uint64]ItemInfo) core.Bundle {
 
 	routes := []core.Route{
 		core.Route{
 			Method:  http.MethodGet,
 			Path:    "/update",
-			Handler: update,
+			Handler: update(itemsMap),
 		},
 	}
 

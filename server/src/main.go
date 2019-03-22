@@ -7,11 +7,12 @@ import (
 	"github.com/gorilla/mux"
 
 	items "./bundles/items"
+
 	"./core"
 )
 
-func initBundles() []core.Bundle {
-	return []core.Bundle{items.NewItemsBundle()}
+func initBundles(itemsMap map[uint64]items.ItemInfo) []core.Bundle {
+	return []core.Bundle{items.NewItemsBundle(itemsMap)}
 }
 
 func main() {
@@ -19,7 +20,8 @@ func main() {
 	router := mux.NewRouter()
 	apiV1 := router.PathPrefix("/items").Subrouter()
 
-	bundles := initBundles()
+	itemMap := make(map[uint64]items.ItemInfo)
+	bundles := initBundles(itemMap)
 
 	for _, bundle := range bundles {
 		for _, route := range bundle.GetRoutes() {
