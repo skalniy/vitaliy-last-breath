@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 
@@ -21,6 +22,45 @@ func main() {
 	apiV1 := router.PathPrefix("/items").Subrouter()
 
 	itemMap := make(map[uint64]items.ItemInfo)
+
+	now := time.Now()
+	itemMap[24] = items.ItemInfo{
+		Name:     "",
+		ID:       24,
+		Shipment: now,
+		Arrival:  now,
+		Location: "fu3hfupf3",
+	}
+	itemMap[12] = items.ItemInfo{
+		Name:     "Obj 12",
+		ID:       12,
+		Shipment: now,
+		Arrival:  now,
+		Location: "cdfnvjk3qn4uit",
+	}
+	later := time.Now()
+	itemMap[6] = items.ItemInfo{
+		Name:     "Obj 6",
+		ID:       6,
+		Shipment: now,
+		Arrival:  later,
+		Location: "f34nufini23qwdn",
+	}
+	itemMap[3] = items.ItemInfo{
+		Name:     "Obj 3",
+		ID:       3,
+		Shipment: now,
+		Arrival:  later,
+		Location: "fnr3igfn39gnup952",
+	}
+	itemMap[0] = items.ItemInfo{
+		Name:     " ",
+		ID:       0,
+		Shipment: now,
+		Arrival:  later,
+		Location: "9ru84rh87thfpw3hfu",
+	}
+
 	bundles := initBundles(itemMap)
 
 	for _, bundle := range bundles {

@@ -16,9 +16,14 @@ func NewItemsBundle(itemsMap map[uint64]ItemInfo) core.Bundle {
 
 	routes := []core.Route{
 		core.Route{
-			Method:  http.MethodGet,
+			Method:  http.MethodPost,
 			Path:    "/update",
 			Handler: update(itemsMap),
+		},
+		core.Route{
+			Method:  http.MethodGet,
+			Path:    "",
+			Handler: get_data(itemsMap),
 		},
 	}
 

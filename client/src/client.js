@@ -40,7 +40,7 @@ function handler(data) {
         console.log(info);
         
 
-        request.get(
+        request.post(
             SERVER_URL,
             { json: info },
             function (error, response, body) {

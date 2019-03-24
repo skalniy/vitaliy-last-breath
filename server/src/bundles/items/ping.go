@@ -43,6 +43,7 @@ func update(itemsMap map[uint64]ItemInfo) func(response http.ResponseWriter, req
 			var item ItemInfo
 			item.ID = id
 			item.Arrival = updateInfo.Time
+			item.Shipment = updateInfo.Time
 			item.Location = updateInfo.Location
 			itemsMap[id] = item
 			log.Printf("Arrival: %v", itemsMap[id])
@@ -51,6 +52,23 @@ func update(itemsMap map[uint64]ItemInfo) func(response http.ResponseWriter, req
 		}
 
 		common.WriteJSONBody(&response, http.StatusOK, itemsMap)
+		return
+	}
+}
+
+func get_data(itemsMap map[uint64]ItemInfo) func(response http.ResponseWriter, request *http.Request) {
+	return func(response http.ResponseWriter, request *http.Request) {
+		response.Header().Set("Content-Type", "application/json; charset=utf-8")
+		response.Header().Set("Access-Control-Allow-Origin", "*")
+
+		log.Printf("Get: len = %d", len(itemsMap))
+		dump := make([]ItemInfo, len(itemsMap))
+		i := 0
+		for id := range itemsMap {
+			dump[i] = itemsMap[id]
+			i++
+		}
+		common.WriteJSONBody(&response, http.StatusOK, dump)
 		return
 	}
 }

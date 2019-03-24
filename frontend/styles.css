@@ -1,0 +1,20 @@
+.wrapper {
+  position: relative;
+  margin: 1rem;
+}
+
+.simpleTable, .simpleTable td {
+  border: 1px solid black;
+}
+
+#leftTable {
+  position: absolute;
+  left: 0;
+  width: 40%;
+}
+
+#rightTable {
+  position: absolute;
+  right: 0;
+  width: 50%;
+}

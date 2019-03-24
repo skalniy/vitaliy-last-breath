@@ -4,6 +4,7 @@ import "time"
 
 type ItemInfo struct {
 	ID       uint64    `json:"id"`
+	Name     string    `json:"name,omitempty"`
 	Shipment time.Time `json:"shipment"`
 	Arrival  time.Time `json:"arrival"`
 	Location string    `json:"location"`
