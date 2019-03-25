@@ -1,6 +1,8 @@
 const SerialPort = require('serialport');
 const Readline = require('@serialport/parser-readline');
+
 const port =  new SerialPort('/dev/ttyACM0', { baudRate: 9600 });
+
 const request = require("request")
 const parser = port.pipe(new Readline({ delimiter: '\n' }));
 
@@ -20,7 +22,11 @@ port.on('close', () => {
 
 function handler(data) {
     console.log("=======================================================");
+    console.log('data: ', data);
+    console.log("=======================================================");
+
     try {
+
         const params = data.slice(1, -2).split('/');
         // console.log(params[1], params[2]);
         const [ day, month, year] = params[1].split('.');

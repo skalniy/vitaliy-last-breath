@@ -14,7 +14,7 @@ type Message struct {
 	Msg string `json:"message"`
 }
 
-func update(itemsMap map[uint64]ItemInfo) func(response http.ResponseWriter, request *http.Request) {
+func update(itemsMap map[uint64]ItemInfo, shipment map[uint64]ItemInfo) func(response http.ResponseWriter, request *http.Request) {
 	return func(response http.ResponseWriter, request *http.Request) {
 		response.Header().Set("Content-Type", "application/json; charset=utf-8")
 
@@ -35,11 +35,18 @@ func update(itemsMap map[uint64]ItemInfo) func(response http.ResponseWriter, req
 		id := updateInfo.ID
 		if item, ok := itemsMap[id]; ok {
 			defer delete(itemsMap, id)
+
 			item.Shipment = updateInfo.Time
+			shipment[id] = item
 			log.Printf("Shipment: %v", item)
 			common.WriteJSONBody(&response, http.StatusOK, item)
 			return
 		} else {
+			defer func() {
+				if _, ok := shipment[id]; ok {
+					delete(shipment, id)
+				}
+			}()
 			var item ItemInfo
 			item.ID = id
 			item.Arrival = updateInfo.Time
@@ -56,16 +63,20 @@ func update(itemsMap map[uint64]ItemInfo) func(response http.ResponseWriter, req
 	}
 }
 
-func get_data(itemsMap map[uint64]ItemInfo) func(response http.ResponseWriter, request *http.Request) {
+func get_data(itemsMap map[uint64]ItemInfo, shipment map[uint64]ItemInfo) func(response http.ResponseWriter, request *http.Request) {
 	return func(response http.ResponseWriter, request *http.Request) {
 		response.Header().Set("Content-Type", "application/json; charset=utf-8")
 		response.Header().Set("Access-Control-Allow-Origin", "*")
 
-		log.Printf("Get: len = %d", len(itemsMap))
-		dump := make([]ItemInfo, len(itemsMap))
+		log.Printf("Get")
+		dump := make([]ItemInfo, len(itemsMap)+len(shipment))
 		i := 0
 		for id := range itemsMap {
 			dump[i] = itemsMap[id]
+			i++
+		}
+		for id := range shipment {
+			dump[i] = shipment[id]
 			i++
 		}
 		common.WriteJSONBody(&response, http.StatusOK, dump)

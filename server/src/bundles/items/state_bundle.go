@@ -12,18 +12,18 @@ type ItemsBundle struct {
 }
 
 // NewItemsBundle instance
-func NewItemsBundle(itemsMap map[uint64]ItemInfo) core.Bundle {
+func NewItemsBundle(itemsMap map[uint64]ItemInfo, shipMap map[uint64]ItemInfo) core.Bundle {
 
 	routes := []core.Route{
 		core.Route{
 			Method:  http.MethodPost,
 			Path:    "/update",
-			Handler: update(itemsMap),
+			Handler: update(itemsMap, shipMap),
 		},
 		core.Route{
 			Method:  http.MethodGet,
 			Path:    "",
-			Handler: get_data(itemsMap),
+			Handler: get_data(itemsMap, shipMap),
 		},
 	}
 
